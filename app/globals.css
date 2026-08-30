@@ -34,6 +34,7 @@ a { color: inherit; text-decoration: none; }
 .nav { align-items: center; display: flex; gap: 30px; font-size: 14px; font-weight: 600; }
 .nav a { color: var(--muted); }
 .nav a:hover { color: var(--leaf); }
+.nav-account { align-items: center; border: 1px solid var(--leaf); color: var(--leaf) !important; display: inline-flex; font-size: 21px; justify-content: center; line-height: 1; padding: 10px 13px; }
 .nav-cta { border: 1px solid var(--leaf); color: var(--leaf) !important; padding: 11px 17px; }
 
 .hero { background: linear-gradient(90deg, rgba(18,60,48,.98) 0%, rgba(18,60,48,.87) 43%, rgba(18,60,48,.2) 100%), url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=2000&q=85') center/cover; color: white; min-height: 590px; }
@@ -95,6 +96,8 @@ h1 { font-size: clamp(48px, 7vw, 88px); letter-spacing: -.04em; line-height: .98
 .contact-details { border-top: 1px solid #49675a; margin-top: 45px; padding-top: 22px; }
 .contact-details small { color: var(--gold); display: block; font-size: 11px; font-weight: 700; letter-spacing: .12em; margin-bottom: 6px; text-transform: uppercase; }
 .contact-details a { color: #e9eee6; display: block; margin-bottom: 18px; }
+.mail-account-link { align-items: center; color: var(--gold) !important; display: inline-flex !important; font-size: 13px; font-weight: 700; gap: 8px; }
+.mail-account-link span { font-size: 18px; line-height: 1; }
 .form { background: white; color: var(--ink); padding: 34px; }
 .form-row { display: grid; gap: 18px; grid-template-columns: 1fr 1fr; }
 .field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
@@ -104,6 +107,22 @@ h1 { font-size: clamp(48px, 7vw, 88px); letter-spacing: -.04em; line-height: .98
 .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--leaf); outline: 2px solid rgba(30,91,69,.15); }
 .form .button { margin-top: 2px; }
 .success { color: var(--leaf); font-size: 14px; font-weight: 700; margin: 18px 0 0; }
+.form-error { color: #a33c2f; font-size: 14px; font-weight: 700; margin: 18px 0 0; }
+
+.auth-shell { background: var(--cream); min-height: 100vh; padding: 28px max(24px, calc((100vw - 1120px) / 2)); }
+.auth-back { color: var(--leaf); display: inline-block; font-size: 14px; font-weight: 700; margin-bottom: 90px; }
+.auth-layout { align-items: center; display: grid; gap: 100px; grid-template-columns: 1fr 1fr; margin: 0 auto; max-width: 1040px; }
+.auth-intro h1 { font-size: clamp(48px, 6vw, 78px); letter-spacing: -.04em; line-height: .98; margin: 16px 0 24px; }
+.auth-intro p { color: var(--muted); font-size: 17px; line-height: 1.7; max-width: 430px; }
+.auth-panel { background: var(--paper); padding: 38px; }
+.auth-panel h2 { font-size: 38px; line-height: 1; margin: 30px 0 12px; }
+.auth-muted { color: var(--muted); font-size: 14px; margin: 0 0 28px; }
+.auth-tabs { border-bottom: 1px solid var(--line); display: flex; gap: 24px; }
+.auth-tabs button { background: none; border: 0; border-bottom: 2px solid transparent; color: var(--muted); cursor: pointer; font: 700 14px 'DM Sans', sans-serif; padding: 0 0 14px; }
+.auth-tabs button.active { border-color: var(--leaf); color: var(--leaf); }
+.auth-form { margin-top: 26px; }
+.auth-form .button { width: 100%; }
+.button:disabled { cursor: wait; opacity: .65; }
 
 .footer { align-items: center; display: flex; justify-content: space-between; margin: 0 auto; max-width: 1240px; padding: 26px 32px; }
 .footer p { color: var(--muted); font-size: 12px; margin: 0; }
@@ -134,7 +153,7 @@ h1 { font-size: clamp(48px, 7vw, 88px); letter-spacing: -.04em; line-height: .98
 @media (max-width: 700px) {
   .site-header { padding: 18px 20px; }
   .nav { gap: 14px; }
-  .nav a:not(.nav-cta) { display: none; }
+  .nav a:not(.nav-cta):not(.nav-account) { display: none; }
   .hero-content, .section { padding-left: 20px; padding-right: 20px; }
   .hero-content { padding-top: 75px; }
   .hero { min-height: 590px; }
@@ -158,6 +177,11 @@ h1 { font-size: clamp(48px, 7vw, 88px); letter-spacing: -.04em; line-height: .98
   .form-row { grid-template-columns: 1fr; gap: 0; }
   .footer { align-items: flex-start; flex-direction: column; gap: 12px; padding: 24px 20px; }
   .admin-shell { padding: 28px 20px; }
+  .auth-shell { padding: 20px; }
+  .auth-back { margin-bottom: 55px; }
+  .auth-layout { display: block; }
+  .auth-intro { margin-bottom: 42px; }
+  .auth-panel { padding: 24px 20px; }
   .admin-header { align-items: flex-start; flex-direction: column; gap: 24px; }
   .admin-layout { grid-template-columns: 1fr; }
   .admin-products { grid-column: auto; }
