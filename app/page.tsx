@@ -19,15 +19,40 @@ const journey = [
 export default function Home() {
   const [content, setContent] = useState<SiteContent>(defaultContent);
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const saved = window.localStorage.getItem(contentStorageKey);
     if (saved) window.requestAnimationFrame(() => setContent({ ...defaultContent, ...JSON.parse(saved) }));
   }, []);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSent(true);
+    setSubmitting(true);
+    setSent(false);
+    setError("");
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Object.fromEntries(formData.entries())),
+      });
+
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Unable to send your enquiry.");
+
+      form.reset();
+      setSent(true);
+    } catch (submissionError) {
+      setError(submissionError instanceof Error ? submissionError.message : "Unable to send your enquiry.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -41,6 +66,9 @@ export default function Home() {
           <a href="#company">Our work</a>
           <a href="#lifecycle">Farm lifecycle</a>
           <a href="#tools">Tools</a>
+          <a className="nav-account" href="/auth" aria-label="Log in or sign up" title="Log in or sign up">
+            <span aria-hidden="true">&#9993;</span>
+          </a>
           <a className="nav-cta" href="#contact">Reach us</a>
         </nav>
       </header>
@@ -119,6 +147,10 @@ export default function Home() {
               <div className="contact-details">
                 <small>Email</small>
                 <a href={`mailto:${content.contactEmail}`}>{content.contactEmail}</a>
+                <a className="mail-account-link" href="/auth">
+                  <span aria-hidden="true">&#9993;</span>
+                  Log in or sign up
+                </a>
                 <small>Based in</small>
                 <span>{content.contactLocation}</span>
               </div>
@@ -148,8 +180,11 @@ export default function Home() {
                 <label htmlFor="message">How can we help?</label>
                 <textarea id="message" name="message" required placeholder="A few words about your project..." />
               </div>
-              <button className="button" type="submit">Send enquiry</button>
+              <button className="button" type="submit" disabled={submitting}>
+                {submitting ? "Sending..." : "Send enquiry"}
+              </button>
               {sent && <p className="success" role="status">Thank you. Your enquiry is ready for us to review.</p>}
+              {error && <p className="form-error" role="alert">{error}</p>}
             </form>
           </div>
         </section>
